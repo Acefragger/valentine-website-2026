@@ -1,21 +1,24 @@
-// Update CSS variables from configuration
+// theme.js - Handles the visual styling and colors
+const themeConfig = window.VALENTINE_CONFIG;
+
 function applyTheme() {
-    const config = window.VALENTINE_CONFIG;
     const root = document.documentElement;
+    const colors = themeConfig.colors;
+    const animations = themeConfig.animations;
 
-    // Apply colors
-    root.style.setProperty('--background-color-1', config.colors.backgroundStart);
-    root.style.setProperty('--background-color-2', config.colors.backgroundEnd);
-    root.style.setProperty('--button-color', config.colors.buttonBackground);
-    root.style.setProperty('--button-hover', config.colors.buttonHover);
-    root.style.setProperty('--text-color', config.colors.textColor);
+    // Apply Purple Gradient and Button Colors
+    root.style.setProperty('--background-color-1', colors.backgroundStart);
+    root.style.setProperty('--background-color-2', colors.backgroundEnd);
+    root.style.setProperty('--button-color', colors.buttonBackground);
+    root.style.setProperty('--button-hover', colors.buttonHover);
+    root.style.setProperty('--text-color', colors.textColor);
 
-    // Apply animation settings
-    root.style.setProperty('--float-duration', config.animations.floatDuration);
-    root.style.setProperty('--float-distance', config.animations.floatDistance);
-    root.style.setProperty('--bounce-speed', config.animations.bounceSpeed);
-    root.style.setProperty('--heart-explosion-size', config.animations.heartExplosionSize);
+    // Apply Animation Durations
+    root.style.setProperty('--float-duration', animations.floatDuration);
+    root.style.setProperty('--float-distance', animations.floatDistance);
+    root.style.setProperty('--bounce-speed', animations.bounceSpeed);
+    root.style.setProperty('--heart-explosion-size', animations.heartExplosionSize);
 }
 
-// Apply theme when the page loads
-window.addEventListener('DOMContentLoaded', applyTheme); 
+// Execute theme application
+window.addEventListener('DOMContentLoaded', applyTheme);
