@@ -1,43 +1,33 @@
-const config = window.VALENTINE_CONFIG;
+// script.js - Handles interaction logic
+const valentineConfig = window.VALENTINE_CONFIG;
+
 let yesScale = 1;
 let noScale = 1;
 
-document.title = config.pageTitle;
-
 window.addEventListener('DOMContentLoaded', () => {
-    applyColors();
-    setupContent();
-    setupMusicPlayer();
-    createFloatingElements();
+    // Set Initial Text
+    document.getElementById('valentineTitle').textContent = `${valentineConfig.valentineName}, my love...`;
+    document.getElementById('question1Text').textContent = valentineConfig.questions.first.text;
+    document.getElementById('yesBtn1').textContent = valentineConfig.questions.first.yesBtn;
+    document.getElementById('noBtn1').textContent = valentineConfig.questions.first.noBtn;
+
+    setupMusic();
+    createBackgroundElements();
 });
 
-function applyColors() {
-    const root = document.documentElement;
-    root.style.setProperty('--bg-1', config.colors.backgroundStart);
-    root.style.setProperty('--bg-2', config.colors.backgroundEnd);
-    root.style.setProperty('--btn-color', config.colors.buttonBackground);
-    root.style.setProperty('--btn-hover', config.colors.buttonHover);
-    root.style.setProperty('--text-color', config.colors.textColor);
-}
-
-function setupContent() {
-    document.getElementById('valentineTitle').textContent = `${config.valentineName}, my love...`;
-    document.getElementById('question1Text').textContent = config.questions.first.text;
-    document.getElementById('yesBtn1').textContent = config.questions.first.yesBtn;
-    document.getElementById('noBtn1').textContent = config.questions.first.noBtn;
-}
-
 function moveButton(button) {
-    // Shrink No
+    // 1. Shrink No button
     noScale -= 0.15;
     if (noScale < 0.2) noScale = 0.2;
     
-    // Grow Yes
+    // 2. Grow Yes button
     yesScale += 0.5;
     const yesBtn = document.getElementById('yesBtn1');
-    yesBtn.style.transform = `scale(${yesScale})`;
+    if (yesBtn) {
+        yesBtn.style.transform = `scale(${yesScale})`;
+    }
 
-    // Move No
+    // 3. Teleport No button
     const x = Math.random() * (window.innerWidth - button.offsetWidth);
     const y = Math.random() * (window.innerHeight - button.offsetHeight);
     
@@ -52,47 +42,48 @@ function celebrate() {
     const celebration = document.getElementById('celebration');
     celebration.classList.remove('hidden');
     
-    document.getElementById('celebrationTitle').textContent = config.celebration.title;
-    document.getElementById('celebrationMessage').textContent = config.celebration.message;
-    document.getElementById('celebrationEmojis').textContent = config.celebration.emojis;
+    document.getElementById('celebrationTitle').textContent = valentineConfig.celebration.title;
+    document.getElementById('celebrationMessage').textContent = valentineConfig.celebration.message;
+    document.getElementById('celebrationEmojis').textContent = valentineConfig.celebration.emojis;
     
-    createHeartExplosion();
+    // Trigger more floating hearts for celebration
+    for(let i=0; i<5; i++) createBackgroundElements();
 }
 
-function createFloatingElements() {
+function createBackgroundElements() {
     const container = document.querySelector('.floating-elements');
-    const emojis = [...config.floatingEmojis.hearts, ...config.floatingEmojis.bears];
-    emojis.forEach(emoji => {
+    const hearts = valentineConfig.floatingEmojis.hearts;
+    const bears = valentineConfig.floatingEmojis.bears;
+    const all = [...hearts, ...bears];
+
+    all.forEach(emoji => {
         const div = document.createElement('div');
-        div.className = 'element';
+        div.className = 'floating-item';
         div.innerHTML = emoji;
         div.style.left = Math.random() * 100 + 'vw';
-        div.style.animationDuration = (10 + Math.random() * 10) + 's';
+        div.style.animationDelay = Math.random() * 5 + 's';
         container.appendChild(div);
     });
 }
 
-function createHeartExplosion() {
-    for (let i = 0; i < 40; i++) {
-        createFloatingElements();
-    }
-}
-
-function setupMusicPlayer() {
+function setupMusic() {
     const bgMusic = document.getElementById('bgMusic');
     const musicToggle = document.getElementById('musicToggle');
-    if (!config.music.enabled) return;
-    document.getElementById('musicSource').src = config.music.musicUrl;
+    const musicCfg = valentineConfig.music;
+
+    if (!musicCfg.enabled) return;
+
+    document.getElementById('musicSource').src = musicCfg.musicUrl;
     bgMusic.load();
-    bgMusic.volume = config.music.volume;
+    bgMusic.volume = musicCfg.volume;
 
     musicToggle.addEventListener('click', () => {
         if (bgMusic.paused) {
             bgMusic.play();
-            musicToggle.textContent = config.music.stopText;
+            musicToggle.textContent = musicCfg.stopText;
         } else {
             bgMusic.pause();
-            musicToggle.textContent = config.music.startText;
+            musicToggle.textContent = musicCfg.startText;
         }
     });
 }
