@@ -1,15 +1,9 @@
-/* CSS Variables - Updated by JS */
 :root {
-    --background-color-1: #2d0b4d;
-    --background-color-2: #7a3e9d;
-    --button-color: #9b59b6;
-    --button-hover: #8e44ad;
+    --bg-1: #2d0b4d;
+    --bg-2: #7a3e9d;
+    --btn-color: #9b59b6;
+    --btn-hover: #8e44ad;
     --text-color: #ffffff;
-
-    --float-duration: 15s;
-    --float-distance: 50px;
-    --bounce-speed: 0.5s;
-    --heart-explosion-size: 1.5;
 }
 
 body {
@@ -18,10 +12,10 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(135deg, var(--background-color-1), var(--background-color-2));
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    overflow: hidden;
+    background: linear-gradient(135deg, var(--bg-1), var(--bg-2));
+    font-family: 'Poppins', sans-serif;
     color: var(--text-color);
+    overflow: hidden;
 }
 
 .container {
@@ -29,90 +23,78 @@ body {
     backdrop-filter: blur(10px);
     padding: 3rem;
     border-radius: 30px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
     text-align: center;
-    max-width: 500px;
-    width: 90%;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
     z-index: 10;
+    max-width: 500px;
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+.button-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-top: 30px;
+    min-height: 150px;
+}
+
+.cute-btn {
+    background: var(--btn-color);
+    border: none;
+    padding: 12px 25px;
+    border-radius: 50px;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.3s ease, background 0.3s, left 0.2s, top 0.2s;
+}
+
+.cute-btn:hover {
+    background: var(--btn-hover);
+    transform: scale(1.05);
 }
 
 .floating-elements {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    top: 0; left: 0; width: 100%; height: 100%;
     pointer-events: none;
-    z-index: 1;
 }
 
-.heart, .bear {
+.element {
     position: absolute;
+    bottom: -10%;
     font-size: 2rem;
-    animation: float var(--float-duration) linear infinite;
-    opacity: 0.6;
+    animation: floatUp 15s linear infinite;
+    opacity: 0.5;
 }
 
-@keyframes float {
-    0% { transform: translateY(110vh) translateX(0) rotate(0deg); }
-    100% { transform: translateY(-20vh) translateX(var(--float-distance)) rotate(360deg); }
-}
-
-.cute-btn {
-    background: var(--button-color);
-    border: none;
-    padding: 15px 30px;
-    margin: 15px;
-    border-radius: 50px;
-    color: white;
-    font-size: 1.2rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.3s, left 0.2s ease, top 0.2s ease;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-}
-
-.cute-btn:hover {
-    background: var(--button-hover);
-    transform: scale(1.1);
-}
-
-#yesBtn1 {
-    z-index: 100; /* Ensure it stays above other elements as it grows */
+@keyframes floatUp {
+    0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.5; }
+    90% { opacity: 0.5; }
+    100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
 }
 
 .hidden { display: none; }
 
-h1 {
-    font-size: 2.5rem;
-    margin-bottom: 1.5rem;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-}
-
 .celebration-text {
-    font-size: 2.5rem;
-    animation: bounce var(--bounce-speed) infinite alternate;
-}
-
-@keyframes bounce {
-    from { transform: scale(1); }
-    to { transform: scale(1.1); }
+    font-size: 1.5rem;
+    margin: 10px 0;
 }
 
 .music-controls {
     position: fixed;
     top: 20px;
     right: 20px;
-    z-index: 1000;
 }
 
 .music-btn {
     background: rgba(255,255,255,0.2);
     color: white;
-    border: 1px solid rgba(255,255,255,0.4);
-    padding: 10px 15px;
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 8px 15px;
     border-radius: 20px;
     cursor: pointer;
-    backdrop-filter: blur(5px);
 }
